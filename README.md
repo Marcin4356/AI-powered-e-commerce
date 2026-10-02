@@ -1,33 +1,60 @@
 # AI-Powered E-commerce
 
-A modular e-commerce platform built as a containerized application stack, with a FastAPI product service, PostgreSQL, Redis, MinIO, and a frontend.
-
-## Overview
-
-The current implementation focuses on a product microservice exposing a REST API and communicating with PostgreSQL and Redis.
-
-The product service provides:
-
-- Product and category endpoints
-- Pagination and filtering
-- PostgreSQL connection pooling
-- Redis caching
-- Health checks
-- Structured application logging
+A containerized e-commerce application with a React frontend and a Python FastAPI product service backed by PostgreSQL, Redis and MinIO.
 
 ## Architecture
 
-```
-Frontend
-   |
-Products API (FastAPI)
-   |          |
-PostgreSQL   Redis
-   |
-MinIO for object storage
+```text
+React frontend
+      |
+      v
+FastAPI Products API
+      |
+  +---+----------------+
+  |                    |
+PostgreSQL            Redis
+                         |
+                    application cache
+
+MinIO
+  |
+object storage
 ```
 
-The services can be run together with Docker Compose on a shared application network.
+The repository also contains ML-related application modules, including recommendation and dynamic-pricing components.
+
+## Backend
+
+The products service is implemented with FastAPI and provides:
+
+- product endpoints
+- category endpoints
+- pagination
+- category filtering
+- text search
+- PostgreSQL connection pooling
+- Redis caching
+- health checks
+- application logging
+- CORS configuration
+
+The service exposes an HTTP health endpoint at `/health`.
+
+## Frontend
+
+The frontend is implemented with React and includes product listing, product cards, navigation, footer and client-side routing. Axios is used for communication with the backend API.
+
+## Infrastructure
+
+Docker Compose defines services for:
+
+- products API
+- PostgreSQL 16
+- Redis 7
+- MinIO
+- React frontend
+
+The services share a Docker network and PostgreSQL/MinIO use persistent volumes.
 
 ## Technologies
 
@@ -37,27 +64,17 @@ The services can be run together with Docker Compose on a shared application net
 - PostgreSQL
 - Redis
 - MinIO
+- React
+- Axios
 - Docker
 - Docker Compose
-- React frontend
 
-## Running locally
+## Run locally
 
 ```bash
 docker compose up -d
 ```
 
-The product API is exposed on port 8000 and provides a health endpoint at `/health`.
+The products API is exposed on port 8000 and the frontend on port 3000.
 
-## DevOps aspects
-
-The repository is also useful as a containerization and deployment lab, covering:
-
-- Multi-service Docker Compose architecture
-- Service-to-service networking
-- Persistent volumes
-- Environment-based configuration
-- Health checks
-- Backend containerization
-
-The repository is a personal full-stack/DevOps project and is still under development.
+This is a personal full-stack and DevOps learning project; some application functionality is still under development.
